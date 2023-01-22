@@ -7,9 +7,9 @@
 
 #include "application.h"
 
-uint8_t carLED=0; //0 green 1 yellow 2 red
-uint8_t prevcarLED=1;
-uint8_t normalmode = 1; //1 normal 0 pedestrian
+uint8_t switcher=0; 
+uint8_t button_flag=0; 
+
 
 void APP_init()
 {
@@ -60,152 +60,114 @@ void APP_start()
 	LED_off(pedestrains_Traffic,LED_yellow_P);
 	LED_off(pedestrains_Traffic,LED_green_P);
 	
-	if(normalmode || carLED==0 || carLED==1){
-		if(!normalmode){
-			carLED=1;
+	if (button_flag==1)
+	{
+		switcher=1;
+		
+	}
+	switch(switcher)
+	{
+		//1-car led green and peds. led red for 5 sec
+		case 0:
+		
+		LED_on(car_Traffic,LED_green_C);
+		LED_off(car_Traffic,LED_yellow_C);
+		LED_off(car_Traffic,LED_red_C);
+		
+		LED_on(pedestrains_Traffic,LED_red_P);
+		LED_off(pedestrains_Traffic,LED_yellow_P);
+		LED_off(pedestrains_Traffic,LED_green_P);
+		for(i=0;i<50;i++){
+			TIMER0_delay(68);
+			if(button_flag)break;//check if ISR was called
 		}
 		
-	switch(carLED)
-	{
-		case 0:
-			LED_on(car_Traffic,LED_green_C);
-			LED_off(car_Traffic,LED_yellow_C);
-			LED_off(car_Traffic,LED_red_C);
-		
-			LED_on(pedestrains_Traffic,LED_red_P);
-			LED_off(pedestrains_Traffic,LED_yellow_P);
-			LED_off(pedestrains_Traffic,LED_green_P);
-		
-			for(i=0;i<50;i++){
-				TIMER0_delay(68);
-				if(!normalmode)break;//check if ISR was called
-				}
-			
-			carLED=1;
-			prevcarLED=0;
+		switcher=1;
 		break;
-		//Case YELLOW LED
+		
 		case 1:
-			//if not normalmode then we need to blink both
 		
-			if(!normalmode){
-				if(prevcarLED!=2){
-					LED_on(pedestrains_Traffic,LED_red_P);
-					//blink both yellow leds
-					for(i=0;i<5;i++){
-						LED_on(car_Traffic,LED_yellow_C);
-						LED_on(pedestrains_Traffic,LED_yellow_P);
-						TIMER0_delay(390);
-						LED_off(car_Traffic,LED_yellow_C);
-						LED_off(pedestrains_Traffic,LED_yellow_P);
-						TIMER0_delay(190);
-						LED_on(car_Traffic,LED_yellow_C);
-						LED_on(pedestrains_Traffic,LED_yellow_P);
-						TIMER0_delay(390);
-					}
-				}
-				prevcarLED=1;//to go to Ped lights logic
-				carLED=2;
-				LED_on(car_Traffic,LED_red_C);
-				LED_on(pedestrains_Traffic,LED_green_P);
-				}
-				else
-				{
-				//blink car yellow led
-				for(i=0;i<5;i++){
-					LED_on(car_Traffic,LED_yellow_C);
-					LED_on(pedestrains_Traffic,LED_yellow_P);
-					TIMER0_delay(380);
-					LED_off(car_Traffic,LED_yellow_C);
-					LED_off(pedestrains_Traffic,LED_yellow_P);
-					TIMER0_delay(180);
-					LED_on(car_Traffic,LED_yellow_C);
-					LED_on(pedestrains_Traffic,LED_yellow_P);
-					TIMER0_delay(380);
-					if(!normalmode){//check if ISR was called
-						prevcarLED=1;
-						break;
-					}
-				}
-			}
+		LED_on(car_Traffic,LED_green_C);
+		LED_off(car_Traffic,LED_yellow_C);
+		LED_off(car_Traffic,LED_red_C);
+		
+		LED_on(pedestrains_Traffic,LED_red_P);
+		LED_off(pedestrains_Traffic,LED_yellow_P);
+		LED_off(pedestrains_Traffic,LED_green_P);
+		//blink both yellow leds
+		for(i=0;i<5;i++){
+			LED_on(car_Traffic,LED_yellow_C);
+			LED_on(pedestrains_Traffic,LED_yellow_P);
+			TIMER0_delay(390);
 			LED_off(car_Traffic,LED_yellow_C);
 			LED_off(pedestrains_Traffic,LED_yellow_P);
-			//Configure variables for correct switching
-			if(prevcarLED==0){
-				carLED=2;
-				prevcarLED=1;
-				}else if(prevcarLED==2){
-				carLED=0;
-				prevcarLED=1;
-			}
+			TIMER0_delay(190);
+			LED_on(car_Traffic,LED_yellow_C);
+			LED_on(pedestrains_Traffic,LED_yellow_P);
+			TIMER0_delay(390);
+		}
+		button_flag=0;
+		switcher=2;
 		break;
 		
-		//Case RED LED
 		case 2:
-			LED_off(car_Traffic,LED_green_C);
-			LED_off(car_Traffic,LED_yellow_C);
-			LED_on(car_Traffic,LED_red_C);
-			LED_on(pedestrains_Traffic,LED_green_P);
-			LED_off(pedestrains_Traffic,LED_yellow_P);
-			LED_off(pedestrains_Traffic,LED_red_P);
-			for(i=0;i<50;i++){
-				TIMER0_delay(68);
-				if(!normalmode)break;
-			}
-			prevcarLED=2;
-			carLED=1;
-			break;
-			
-		default:
-			carLED=2;
-			prevcarLED=1;
-			break;
-			}
+		LED_on(car_Traffic,LED_red_C);
+		LED_off(car_Traffic,LED_yellow_C);
+		LED_off(car_Traffic,LED_green_C);
 		
-			}else{
-			//Configure PED LEDs
-			LED_on(pedestrains_Traffic,LED_green_P);
-			LED_off(pedestrains_Traffic,LED_yellow_P);
-			LED_off(pedestrains_Traffic,LED_red_P);
+		LED_on(pedestrains_Traffic,LED_green_P);
+		LED_off(pedestrains_Traffic,LED_yellow_P);
+		LED_off(pedestrains_Traffic,LED_red_P);
 		
-			//Configure CAR LEDs
-			LED_off(car_Traffic,LED_green_C);
-			LED_off(car_Traffic,LED_yellow_C);
-			LED_on(car_Traffic,LED_red_C);
-			TIMER0_delay(5000);//5 sec delay
+		for(i=0;i<50;i++){
+			TIMER0_delay(68);
+			if(button_flag)break;//check if ISR was called
+		}
 		
-			//make sure car red light is off
-			LED_off(car_Traffic,LED_red_C);
+		switcher=3;
+		break;
 		
-			//blink both yellow while ped green is on
-			for(i=0;i<5;i++){
-				LED_on(car_Traffic,LED_yellow_C);
-				LED_on(pedestrains_Traffic,LED_yellow_P);
-				TIMER0_delay(390);
-				LED_off(car_Traffic,LED_yellow_C);
-				LED_off(pedestrains_Traffic,LED_yellow_P);
-				TIMER0_delay(190);
-				LED_on(car_Traffic,LED_yellow_C);
-				LED_on(pedestrains_Traffic,LED_yellow_P);
-				TIMER0_delay(390);
-			}
-			//Turn off yellow LEDs
+		case 3:
+		LED_on(car_Traffic,LED_red_C);
+		LED_off(car_Traffic,LED_yellow_C);
+		LED_off(car_Traffic,LED_green_C);
+		
+		LED_on(pedestrains_Traffic,LED_green_P);
+		LED_off(pedestrains_Traffic,LED_yellow_P);
+		LED_off(pedestrains_Traffic,LED_red_P);
+		//blink both yellow leds
+		for(i=0;i<5;i++){
+			LED_on(car_Traffic,LED_yellow_C);
+			LED_on(pedestrains_Traffic,LED_yellow_P);
+			TIMER0_delay(390);
 			LED_off(car_Traffic,LED_yellow_C);
 			LED_off(pedestrains_Traffic,LED_yellow_P);
-			//turn on PED red LED
-			LED_on(pedestrains_Traffic,LED_red_P);
-			//reset normalmode
-			normalmode=1;
-			//Configure carLED variables
-			carLED=0;
-			prevcarLED=1;
+			TIMER0_delay(190);
+			LED_on(car_Traffic,LED_yellow_C);
+			LED_on(pedestrains_Traffic,LED_yellow_P);
+			TIMER0_delay(390);
+		}
+		switcher=0;
+		
+		
 	}
+	
 }
 
 
 ISR(EXT_INT_0)
 {
-	normalmode=0;
+	
+	
+	if(button_flag==0)
+	{
+		switcher=1;
+		
+	}
+	else
+	{
+		//do nothing
+	}
 }
 
 
