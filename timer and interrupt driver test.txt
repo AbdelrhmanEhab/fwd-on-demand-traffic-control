@@ -1,0 +1,78 @@
+/*
+ * DIO_DRIVER.c
+ *
+ * Created: 1/6/2023 1:45:51 PM
+ * Author : Abdelrhman Ehab
+ */ 
+
+//#include <avr/io.h>
+#include "ECUAL/BUTTON_DRIVER/BUTTON.h"
+#include "ECUAL/LED_DRIVER/LED.h"
+#include "MCAL/TIMER0_DRIVER/TIMER0.h"
+#include "MCAL/INTERRUPTS_DRIVER/INTERRUPT.h"
+
+uint8_t i=0,vel=0;
+
+int main(void)
+{
+   uint8_t j=0;
+   
+   
+   BUTTON_init(PORT_D,2); //int0 pin attached to button
+   
+   LED_init(PORT_A,0);	//red led
+   LED_init(PORT_A,1);	//yellow led
+   LED_init(PORT_A,2);	//green led
+   
+   TIMER0_init();
+   
+   sei();
+   RISING_EDGE_SETUP();
+   SETUP_INT0();
+   
+    while (1) 
+    {
+	if(i%2==0)
+	{
+		LED_off(PORT_A,2);
+	}
+	else if(i%2!=0)
+	{
+		LED_on(PORT_A,2);
+		
+	}
+	else
+	{
+		/*do nothing*/
+	}
+	
+	LED_on(PORT_A,0); //turn red led on
+	TIMER0_delay(1000);
+	LED_off(PORT_A,0); //turn red led on
+		
+		
+	//blink yellow led
+	for(j=0;j<1;j++){
+		LED_on(PORT_A,1);
+		TIMER0_delay(400);
+		LED_off(PORT_A,1);
+		TIMER0_delay(200);
+		LED_on(PORT_A,1);
+		TIMER0_delay(400);
+		
+	}
+	LED_off(PORT_A,1);
+	
+	
+	
+}
+
+}
+	
+
+
+
+ISR(EXT_INT_0){
+	
+i++;
+}

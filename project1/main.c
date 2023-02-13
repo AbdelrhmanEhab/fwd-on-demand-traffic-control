@@ -6,14 +6,28 @@
  */ 
 
 //#include <avr/io.h>
+// #include "ECUAL/BUTTON_DRIVER/BUTTON.h"
+// #include "ECUAL/LED_DRIVER/LED.h"
+// #include "MCAL/TIMER0_DRIVER/TIMER0.h"
+// #include "MCAL/INTERRUPTS_DRIVER/INTERRUPT.h"
 #include "APPLICATION/application.h"
+
+uint8_t i=0,vel=0;
 
 int main(void)
 {
    APP_init();
+   
     while (1) 
     {
-		APP_start();
-    }
+	APP_start();
+	
+	
 }
 
+}
+	
+// ISR(EXT_INT_0){
+// 	
+// i++;
+// }

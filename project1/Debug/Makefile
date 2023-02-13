@@ -51,7 +51,6 @@ C_SRCS +=  \
 ../ECUAL/LED_DRIVER/LED.c \
 ../MCAL/DIO_DRIVER/DIO.c \
 ../main.c \
-../MCAL/INTERRUPTS_DRIVER/INTERRUPT.c \
 ../MCAL/TIMER0_DRIVER/TIMER0.c
 
 
@@ -67,7 +66,6 @@ ECUAL/BUTTON_DRIVER/BUTTON.o \
 ECUAL/LED_DRIVER/LED.o \
 MCAL/DIO_DRIVER/DIO.o \
 main.o \
-MCAL/INTERRUPTS_DRIVER/INTERRUPT.o \
 MCAL/TIMER0_DRIVER/TIMER0.o
 
 OBJS_AS_ARGS +=  \
@@ -76,7 +74,6 @@ ECUAL/BUTTON_DRIVER/BUTTON.o \
 ECUAL/LED_DRIVER/LED.o \
 MCAL/DIO_DRIVER/DIO.o \
 main.o \
-MCAL/INTERRUPTS_DRIVER/INTERRUPT.o \
 MCAL/TIMER0_DRIVER/TIMER0.o
 
 C_DEPS +=  \
@@ -85,7 +82,6 @@ ECUAL/BUTTON_DRIVER/BUTTON.d \
 ECUAL/LED_DRIVER/LED.d \
 MCAL/DIO_DRIVER/DIO.d \
 main.d \
-MCAL/INTERRUPTS_DRIVER/INTERRUPT.d \
 MCAL/TIMER0_DRIVER/TIMER0.d
 
 C_DEPS_AS_ARGS +=  \
@@ -94,7 +90,6 @@ ECUAL/BUTTON_DRIVER/BUTTON.d \
 ECUAL/LED_DRIVER/LED.d \
 MCAL/DIO_DRIVER/DIO.d \
 main.d \
-MCAL/INTERRUPTS_DRIVER/INTERRUPT.d \
 MCAL/TIMER0_DRIVER/TIMER0.d
 
 OUTPUT_FILE_PATH +=Project1.elf
@@ -140,13 +135,6 @@ MCAL/DIO_DRIVER/DIO.o: ../MCAL/DIO_DRIVER/DIO.c
 	
 
 ./main.o: .././main.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-MCAL/INTERRUPTS_DRIVER/INTERRUPT.o: ../MCAL/INTERRUPTS_DRIVER/INTERRUPT.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

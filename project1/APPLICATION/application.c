@@ -25,23 +25,13 @@ void APP_init()
 	//initializing button as input
 	BUTTON_init(BUTTON_PORT_P,BUTTON_PIN_P);
 	
-	//selecting timer mode
+	//initializing timer
 	TIMER0_init();
 	
-	//enable global interrupts
-	INTERRUPT_GLOBAL_EN();
-	
-	//enable timer 0 interrupts
-	INTERRUPT_TIMER0_EN();
-	
-	//selecting the interrupt sense to rising edge
-	INT0_init();
-	
-	//start listening for the interrupt
-	INTERRUPT0_EN();
-	
-	//set address of call back function
-	setOvfCallback(LED_toggle);
+	//Enable Global interrupts & setup rising edge detection for button
+	sei();
+	RISING_EDGE_SETUP();
+	SETUP_INT0();
 	
 	
 }

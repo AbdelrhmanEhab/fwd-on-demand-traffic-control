@@ -157,13 +157,7 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCAL\INTERRUPTS_DRIVER\INTERRUPT.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="MCAL\INTERRUPTS_DRIVER\INTERRUPT.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="MCAL\INTERRUPTS_DRIVER\INTERRUPT_config.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MCAL\TIMER0_DRIVER\TIMER0.c">

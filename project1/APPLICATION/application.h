@@ -9,8 +9,6 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
 
-#include "..\MCAL\INTERRUPTS_DRIVER\INTERRUPT.h"
-#include "..\MCAL\TIMER0_DRIVER\TIMER0.h"
 #include "..\ECUAL\BUTTON_DRIVER\BUTTON.h"
 #include "..\ECUAL\LED_DRIVER\LED.h"
 
